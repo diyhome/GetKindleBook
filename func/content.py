@@ -1,9 +1,12 @@
+#!/usr/bin/env python3
 import re
 import urllib
 import urllib.request
+
 from bs4 import BeautifulSoup
 
-_features = "lxml"
+#  _features = "lxml"
+_features = "html.parser"
 
 class Content:
     tit="null"
@@ -31,6 +34,7 @@ class Content:
                 linkData.append(url+t)
         return linkData
     def GText(self,urls,ic,sre):
+        Text = ""
         html = urllib.request.urlopen(urls)
         tsoup = BeautifulSoup(html,_features)
         self.content = tsoup.prettify()
@@ -52,22 +56,4 @@ class Content:
         print(s.prettify())
 
 if __name__ == "__main__":
-    url = input("Enter url:")
-    print("Your Entent: +\n"
-            +url+"\n"
-            +rs+"\n"
-            +rss+"\n")
-    r = Content()
-    #  url = "http://guancha.gmw.cn/"
-    #  rs = "/content_"
-    #  iurl = r.GUrl(url,rs)
-    #  print(iurl)
-    #  print(r.content)
-    #  s = r.GText(iurl[-5],"class_","u-mainText")
-    #  print(s)
-    print(r.ts(url))
-    urls = r.GUrl(url,rs)
-    print(urls)
-    cu = urls[-5]
-    print(r.ts(cu))
-    rss = input("Re content:")
+    print("你可以通过编辑main函数测试!")
