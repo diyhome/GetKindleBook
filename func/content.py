@@ -5,15 +5,13 @@ import urllib.request
 
 from bs4 import BeautifulSoup
 
-#  _features = "lxml"
-_features = "html.parser"
+_features = "lxml"
+#  _features = "html.parser"
 
 class Content:
     tit="null"
     def __init__(self):
         print("Runing Content class...")
-        """防止重复调用是tit保留上一次内容"""
-        tit = "null"
         self.page = "Loading..."
         self.content = "Loading..."
     
@@ -35,17 +33,20 @@ class Content:
         return linkData
     def GText(self,urls,ic,sre):
         Text = ""
+        tit = ""
         html = urllib.request.urlopen(urls)
         tsoup = BeautifulSoup(html,_features)
+        self.tit = tsoup.title.string
         self.content = tsoup.prettify()
         #  Text = tsoup.find(class_=sre)
         if ic == "class_":
             Text = tsoup.find(class_=sre)
+            #  print(sre)
             #  print("Runing GText class")
         else:
             Text = tsoup.find(id=sre)
         if Text is None:
-               print("Content is null.Faild:"+url)
+               print("Content is null.Faild:"+urls)
                return
         else:
             #  Text = Text.get_text()
