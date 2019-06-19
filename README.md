@@ -1,4 +1,9 @@
-# GetKindleBook
-Using python to get web content and make *.mobi,than send mail to kindle
-## Instruct 
-The reason why I create this project that I want to my Kindle can auto get some text from website
+# 介绍
+* 这个项目是用来从一些不允许下载小说的网站上面下载小说.使用的`Python`版本是`3.6`
+* 写爬虫的时候发现代码重用的地方有点多,就给集成到`func`里面了
+
+# 新手上路
+
+# 项目文件介绍
+## WebPage
+这个文件是进行一些与网页有关的操作，使用
