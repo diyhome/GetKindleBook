@@ -36,12 +36,33 @@ class WebPage:
             RHtml = gzip.decompress(HCode).decode("utf-8")
         except:
             RHtml = HCode.decode("utf-8")
+        return RHtml
 
     def GUrl(self,url,IDF):
         linkData = []
         html = self.GHtml(url)
         USoup = BeautifulSoup(html,_INTERPRETER)
-        self.BTitle = USoup.title()
+        self.BTitle = USoup.title.spring
         T_UList = USoup.find_all(href=re.compile(IDF))
         for utmp in T_UList:
             t = utmp.get("href")
+            linkData.append(t)
+        return linkData
+
+    def GContent(self,url,IC,IDF):
+        html = self.GHtml(url)
+        CSoup = BeautifulSoup(html,_INTERPRETER)
+        self.CTitle = CSoup.title.spring
+        if IC == "class_":
+            Text = CSoup.find(class_=IDF)
+        else:
+            Text = CSoup.find(id=IDF)
+        if Text is NONe:
+            print("Errpr:Content is null.And the url is "+url)
+            return
+        else:
+            return Text.get_text()
+
+
+if __name__=="__main__":
+    print("Welcome using my project!")
