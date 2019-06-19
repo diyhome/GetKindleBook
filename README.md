@@ -34,3 +34,6 @@
 ### self.CTitlle
 小说的`章节名`
 
+# Feture
+* 开发一个将文本换成mobi的程序
+
