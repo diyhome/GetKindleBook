@@ -28,9 +28,9 @@ class WebPage:
         print("Runing WebPage Process...")
 
     def GHtml(self,url):
-        headers = {'User-Agent':"Mozilla/5.0 (Windows NT 6.1; Win64; x64"}
-        requests = urllib.request.Request(url,headers)
-        with urllib.request.urlopen(requests) as response:
+        req = urllib.request.Request(url)
+        req.add_header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36 QIHU 360SE")
+        with urllib.request.urlopen(req) as response:
             HCode = response.read()
         try:
             RHtml = gzip.decompress(HCode).decode("utf-8")
@@ -57,7 +57,7 @@ class WebPage:
             Text = CSoup.find(class_=IDF)
         else:
             Text = CSoup.find(id=IDF)
-        if Text is NONe:
+        if Text is None:
             print("Errpr:Content is null.And the url is "+url)
             return
         else:
@@ -65,4 +65,4 @@ class WebPage:
 
 
 if __name__=="__main__":
-    print("Welcome using my project!")
+     print("Welcome using my project!")
