@@ -6,7 +6,6 @@ from GetKindleBook.items import EbookItem,BookDetail
 class BanzhuSpider(scrapy.Spider):
     name = 'banzhu'
     allowed_domains = ['banzhuer.com']
-    start_urls = ['https://www.banzhuer.com/6_6685/']
     custom_settings = {
         "DOWNLOAD_DELAY": 0.05,
         # "CONCURRENT_REQUESTS_PER_DOMAIN": 2
