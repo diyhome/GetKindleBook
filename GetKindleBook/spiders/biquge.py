@@ -2,6 +2,7 @@
 import scrapy
 from scrapy.selector import Selector
 from GetKindleBook.items import EbookItem
+from GetKindleBook.items import BookDetail
 
 
 class BiqugeSpider(scrapy.Spider):
@@ -12,12 +13,19 @@ class BiqugeSpider(scrapy.Spider):
         "DOWNLOAD_DELAY": 2,
         # "CONCURRENT_REQUESTS_PER_DOMAIN": 2
     }
+    def __init__(self, links=None, *args, **kwargs):
+        super(BanzhuSpider, self).__init__(*args, **kwargs)
+        self.start_urls = [links]
 
 
     def parse(self, response):
         selsector = Selector(response)
         print(response)
+        xq = BookDetail()
         find_all = selsector.xpath('//*[@id="list"]/dl/dd')
+        xq['bname'] = selsector.xpath('//*[@id="info"]/h1/text()').extract_first()
+        xq['muser'] = selsector.xpath('//*[@id="info"]/p[1]/text()').extract_first().replace('\xa0', '')
+        yield xq
         num = 0
         for section in find_all:
             num += 1

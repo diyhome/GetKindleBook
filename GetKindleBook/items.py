@@ -12,3 +12,7 @@ class EbookItem(scrapy.Item):
     num = scrapy.Field()
     ChaterNa = scrapy.Field()
     ChaterCo = scrapy.Field()
+
+class BookDetail(scrapy.Item):
+    bname = scrapy.Field()
+    muser = scrapy.Field()
