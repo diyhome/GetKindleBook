@@ -8,7 +8,6 @@ from GetKindleBook.items import BookDetail
 class BiqugeSpider(scrapy.Spider):
     name = 'biquge'
     allowed_domains = ['biquge.com.cn']
-    start_urls = ['https://www.biquge.com.cn/book/39269/']
     custom_settings = {
         "DOWNLOAD_DELAY": 0.05,
         # "CONCURRENT_REQUESTS_PER_DOMAIN": 2
