@@ -9,10 +9,6 @@ import scrapy
 
 
 class EbookItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    Anouthor = scrapy.Field()
-    BookName = scrapy.Field()
+    num = scrapy.Field()
     ChaterNa = scrapy.Field()
     ChaterCo = scrapy.Field()
-    UrlChate = scrapy.Field()

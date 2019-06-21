@@ -6,26 +6,33 @@ from GetKindleBook.items import EbookItem
 
 class BiqugeSpider(scrapy.Spider):
     name = 'biquge'
-    allowed_domains = ['https://www.biquge.com.cn']
-    start_urls = ['https://www.biquge.com.cn/book/19074/']
+    allowed_domains = ['biquge.com.cn']
+    start_urls = ['https://www.biquge.com.cn/book/39269/']
+    custom_settings = {
+        "DOWNLOAD_DELAY": 2,
+        # "CONCURRENT_REQUESTS_PER_DOMAIN": 2
+    }
+
 
     def parse(self, response):
-        item = EbookItem()
         selsector = Selector(response)
+        print(response)
         find_all = selsector.xpath('//*[@id="list"]/dl/dd')
-        # print(find_all)
-        BookName = selsector.xpath('//*[@id="info"]/h1/text()').extract_first()
-        Anouthor = selsector.xpath('//*[@id="info"]/p[1]/text()').extract()
-        # print(Anouthor)
-        item['BookName'] = BookName
-        item['Anouthor'] = Anouthor
+        num = 0
         for section in find_all:
+            num += 1
             href = section.xpath('.//@href').extract_first()
             UrlChate = response.urljoin(href)
-            request = scrapy.Request(UrlChate,callback=self.parse_detail)
+            request = scrapy.Request(UrlChate, callback=self.parse_detail, meta={'num': num})
             yield request
 
-    def parse_detail(self,response):
-        selector = Selector(response)
-        content_list = selector.xpath('//*[@id="content"]')
-
+    def parse_detail(self, response):
+        xzbq = Selector(response)
+        huan= xzbq.xpath('//*[@id="content"]/text()').extract()
+        conn = xzbq.css('#wrapper > div.content_read > div > div.bookname > h1::text').extract_first()
+        # cont = "\n".join(huan) #{'a','b','c'} -> a-b-c
+        item = EbookItem()
+        item['num'] = response.meta['num']
+        item['ChaterNa'] = conn
+        item['ChaterCo'] = huan
+        yield item

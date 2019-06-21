@@ -11,4 +11,4 @@
     :copyright (c) 2019 by diyhome<diyhome@outlook.com>.
 """
 from scrapy.cmdline import execute
-execute(['scrapy', 'crawl', 'biquge'])
+execute(['scrapy', 'crawl', 'banzhu'])
