@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from scrapy.selector import Selector
-from GetKindleBook.items import EbookItem
+
 from GetKindleBook.items import BookDetail
+from GetKindleBook.items import EbookItem
 
 
 class BiqugeSpider(scrapy.Spider):
@@ -13,9 +14,10 @@ class BiqugeSpider(scrapy.Spider):
         "DOWNLOAD_DELAY": 0.05,
         # "CONCURRENT_REQUESTS_PER_DOMAIN": 2
     }
-    def __init__(self, links=None, *args, **kwargs):
-        super(BanzhuSpider, self).__init__(*args, **kwargs)
-        self.start_urls = [links]
+
+    # def __init__(self, links=None, *args, **kwargs):
+    #     super(BanzhuSpider, self).__init__(*args, **kwargs)
+    #     self.start_urls = [links]
 
 
     def parse(self, response):
