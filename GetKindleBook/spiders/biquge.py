@@ -10,13 +10,12 @@ class BiqugeSpider(scrapy.Spider):
     name = 'biquge'
     allowed_domains = ['biquge.com.cn']
     custom_settings = {
-        "DOWNLOAD_DELAY": 0.05,
-        # "CONCURRENT_REQUESTS_PER_DOMAIN": 2
+        "DOWNLOAD_DELAY": 0.01,
     }
 
-    # def __init__(self, links=None, *args, **kwargs):
-    #     super(BanzhuSpider, self).__init__(*args, **kwargs)
-    #     self.start_urls = [links]
+    def __init__(self, links=None, *args, **kwargs):
+        super(BiqugeSpider, self).__init__(*args, **kwargs)
+        self.start_urls = [links]
 
 
     def parse(self, response):
@@ -39,7 +38,6 @@ class BiqugeSpider(scrapy.Spider):
         xzbq = Selector(response)
         huan= xzbq.xpath('//*[@id="content"]/text()').extract()
         conn = xzbq.css('#wrapper > div.content_read > div > div.bookname > h1::text').extract_first()
-        # cont = "\n".join(huan) #{'a','b','c'} -> a-b-c
         item = EbookItem()
         item['num'] = response.meta['num']
         item['ChaterNa'] = conn

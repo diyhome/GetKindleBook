@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from scrapy.selector import Selector
-from GetKindleBook.items import EbookItem,BookDetail
+
+from GetKindleBook.items import EbookItem, BookDetail
+
 
 class BanzhuSpider(scrapy.Spider):
-    name = 'banzhu'
+    name = 'banzhuer'
     allowed_domains = ['banzhuer.com']
     custom_settings = {
-        "DOWNLOAD_DELAY": 0.05,
-        # "CONCURRENT_REQUESTS_PER_DOMAIN": 2
+        "DOWNLOAD_DELAY": 0.01,
     }
     def __init__(self, links=None, *args, **kwargs):
         super(BanzhuSpider, self).__init__(*args, **kwargs)
@@ -34,7 +35,6 @@ class BanzhuSpider(scrapy.Spider):
         xzbq = Selector(response)
         huan = xzbq.xpath('//*[@id="content"]/text()').extract()
         conn = xzbq.css('div.content_read > div > div.bookname > h1::text').extract_first()
-        # cont = "\n".join(huan) #{'a','b','c'} -> a-b-c
         item = EbookItem()
         item['num'] = response.meta['num']
         item['ChaterNa'] = conn

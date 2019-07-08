@@ -10,17 +10,18 @@ from GetKindleBook.items import EbookItem, BookDetail
 class XiaoshuobiSpider(scrapy.Spider):
     name = 'xiaoshuobi'
     allowed_domains = ['xiaoshuobi.cc']
-    start_urls = ['https://www.xiaoshuobi.cc/read/85774/']
     trueurl = 'https://www.xiaoshuobi.cc/files/article/html555/'
     custom_settings = {
         "DOWNLOAD_DELAY": 0.01,
-        # "CONCURRENT_REQUESTS_PER_DOMAIN": 2
     }
+
+    def __init__(self, links=None, *args, **kwargs):
+        super(XiaoshuobiSpider, self).__init__(*args, **kwargs)
+        self.start_urls = [links]
 
     def parse(self, response):
         selsector = Selector(response)
         Intruction = BookDetail()
-        # print(response)
         find_all = selsector.xpath('//*[@id="list"]/dl/dd[position()>9]/a')
         Intruction['bname'] = selsector.xpath('//*[@id="info"]/h1/text()').extract_first()
         Intruction['muser'] = selsector.xpath('//*[@id="info"]/p[1]/text()').extract_first().replace("\xa0", '')
@@ -40,9 +41,7 @@ class XiaoshuobiSpider(scrapy.Spider):
     def parse_detail(self, response):
         BookContent = Selector(response)
         TBookText = BookContent.xpath('.//text()').extract()
-        # ReKey = ReKey.findall(r".replace(.*)", TBookText[-1])
         BookText = self.ReKey(TBookText)
-        # print(BookText)
         item = EbookItem()
         item['num'] = response.meta['num']
         item['ChaterNa'] = response.meta['CN']
@@ -51,7 +50,6 @@ class XiaoshuobiSpider(scrapy.Spider):
 
     def ReKey(self, Content=[]):
         ReKey_List = re.findall(r".replace(.*)", Content[-1])
-        print(ReKey_List)
         var = "$%##^^^%$".join(Content)
         for EachOne in ReKey_List:
             key = EachOne.split(",")

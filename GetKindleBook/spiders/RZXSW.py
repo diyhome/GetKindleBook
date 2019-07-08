@@ -7,17 +7,18 @@ from GetKindleBook.items import EbookItem
 
 
 class RzxswSpider(scrapy.Spider):
-    name = 'RZXSW'
-    allowed_domains = ['www.rzlib.net']
-    start_urls = ['https://www.rzlib.net/b/85/85651/']
+    name = 'rzlib'
+    allowed_domains = ['rzlib.net']
     custom_settings = {
-        "DOWNLOAD_DELAY": 0.5,
-        # "CONCURRENT_REQUESTS_PER_DOMAIN": 2
+        "DOWNLOAD_DELAY": 0.01,
     }
+
+    def __init__(self, links=None, *args, **kwargs):
+        super(RzxswSpider, self).__init__(*args, **kwargs)
+        self.start_urls = [links]
 
     def parse(self, response):
         selsector = Selector(response)
-        print(response)
         xq = BookDetail()
         find_all = selsector.xpath('//*[@class="ListChapter"][last()]/ul/li/a')
         xq['bname'] = selsector.xpath('//*[@class="book_title"]/h1/text()').extract_first()
@@ -37,10 +38,6 @@ class RzxswSpider(scrapy.Spider):
 
     def parse_detail(self, response):
         xzbq = Selector(response)
-        # huan= xzbq.xpath('//*[@id="chapter_title"]/h1/text()').extract()
-        # tconn = xzbq.xpath('//*[@id="chapter_content"]/text()').extract()
-        # conn = "\n".join(tconn)
-        # cont = "\n".join(huan) #{'a','b','c'} -> a-b-c
         ChapterCon = xzbq.xpath('.//text()').extract()
         item = EbookItem()
         item['num'] = response.meta['num']
